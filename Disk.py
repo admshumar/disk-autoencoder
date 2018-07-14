@@ -42,7 +42,7 @@ class DiskImage(Disk):
             upper_bound = Disk.Boundary(x, radius, center_x, center_y, 1)
             for y in range(lower_bound, upper_bound+1):
                 if y != -1:
-                    X[x,y] = 1.0
+                    X[x,y] = 255.0
         return X
 
     def makeTorchRow(X):
@@ -52,12 +52,16 @@ class DiskImage(Disk):
         d = d.float()
         return d
 
+    def makeTorchColumn(X):
+        return torch.t(makeTorchRow(X))
+
     def __init__(self, radius, center_x, center_y, width, height):
         Disk.__init__(self, radius, center_x, center_y)
         self.width = width
         self.height = height
         self.size = width * height
         self.image = DiskImage.makeImage(self.radius, self.center_x, self.center_y, self.width, self.height)
+        self.TorchImage = torch.reshape((torch.from_numpy(self.image)).float(), (1, 1, self.width, self.height))
         self.sample = DiskImage.makeTorchRow(self.image)
 
     def showImage(self):
