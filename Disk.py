@@ -72,7 +72,7 @@ class DiskImage(Disk):
         if not os.path.exists(directory):
             os.makedirs(directory)
         filename = directory + str(self.width) + "_" + str(self.height) + "_" + str(self.radius) + "_" + str(self.center_x) + "_" + str(self.center_y) +".jpeg"
-        new_p = Image.fromarray(self.image) #JPEG takes values between 0 and 255, NOT 0 and 1
+        new_p = Image.fromarray(self.image)
         if new_p.mode != 'RGB':
             new_p = new_p.convert('RGB')
         new_p.save(filename, "JPEG")
