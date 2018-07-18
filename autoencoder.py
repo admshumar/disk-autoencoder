@@ -174,8 +174,11 @@ def getDiskGrid(tensor):
 def plotSingleDisk(tensor):
     if tensor.requires_grad == True:
         tensor = tensor.detach()
-    # imshow needs a numpy array with the channel dimension
-    # as the the last dimension so we have to transpose things.
+    # For images with more than one channel dimension,
+    # imshow needs a numpy array with the channel dimensions
+    # as the the last dimensions, so we have to transpose things.
+    # For images with one channel dimension, imshow wants a tensor
+    # without the channel dimension.
     z = tensor.reshape(tensor.size()[1],tensor.size()[2])
     plt.imshow(z, cmap = "gray")
     plt.show()
